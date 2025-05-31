@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { PlusCircle } from "lucide-react";
 
-// Mock data for cases
+// Mock data for cases with Pakistani regions
 const MOCK_CASES: Case[] = [
   {
     case_id: "MP-2025-000147",
@@ -18,7 +18,7 @@ const MOCK_CASES: Case[] = [
     last_known_location: "Clifton Beach, Karachi",
     date_last_seen: "2025-05-28",
     timestamp: "2025-05-29T10:00:00Z",
-    days_ago_custom: daysAgo("2025-05-28"), // For display
+    days_ago_custom: daysAgo("2025-05-28"),
     region: "Karachi",
     status: "Investigating",
     priority_level: "High",
@@ -104,8 +104,8 @@ const MOCK_CASES: Case[] = [
   }
 ];
 
-// Store mock cases in localStorage to persist new cases from form submission
-const LOCAL_STORAGE_KEY = "findmenow_cases";
+// Changed key to ensure fresh data load, avoiding stale localStorage
+const LOCAL_STORAGE_KEY = "findmenow_cases_pk_v1";
 
 export default function CaseListPage() {
   const [allCases, setAllCases] = useState<Case[]>([]);
@@ -120,19 +120,21 @@ export default function CaseListPage() {
     if (storedCases) {
       try {
         const parsedCases = JSON.parse(storedCases);
-        // Basic validation to ensure it's an array and has expected structure
-        if (Array.isArray(parsedCases) && parsedCases.every(c => c.case_id && c.full_name)) {
+        if (Array.isArray(parsedCases) && parsedCases.every(c => c.case_id && c.full_name && c.region)) {
           setAllCases(parsedCases);
         } else {
+          // Stored data is invalid or doesn't match expected structure, reset with MOCK_CASES
           setAllCases(MOCK_CASES);
           localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(MOCK_CASES));
         }
       } catch (e) {
         // If parsing fails, reset to default mock cases
+        console.error("Failed to parse cases from localStorage, resetting.", e);
         setAllCases(MOCK_CASES);
         localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(MOCK_CASES));
       }
     } else {
+      // No cases in localStorage, initialize with MOCK_CASES
       setAllCases(MOCK_CASES);
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(MOCK_CASES));
     }
@@ -166,7 +168,6 @@ export default function CaseListPage() {
     setFilters(newFilters);
   };
   
-  // Add this effect to listen for custom event when new case is submitted
   useEffect(() => {
     const handleNewCaseReported = (event: Event) => {
       const customEvent = event as CustomEvent<Case>;
@@ -200,5 +201,3 @@ export default function CaseListPage() {
     </div>
   );
 }
-
-    

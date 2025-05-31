@@ -10,10 +10,10 @@ import { Download, ArrowLeft, AlertTriangle, Info, CheckCircle, Search, AlertCir
 import Image from "next/image";
 import Link from "next/link";
 import { formatDate } from "@/lib/utils";
-import StatusBadge from "@/components/cases/StatusBadge"; // Ensure this path is correct
+import StatusBadge from "@/components/cases/StatusBadge";
 
-// Store mock cases in localStorage to persist new cases from form submission
-const LOCAL_STORAGE_KEY = "findmenow_cases";
+// Changed key to ensure fresh data load
+const LOCAL_STORAGE_KEY = "findmenow_cases_pk_v1";
 
 const MOCK_CASES_FALLBACK: Case[] = [
   {
@@ -63,17 +63,25 @@ export default function CaseDetailPage() {
     if (caseId) {
       setIsLoading(true);
       const storedCases = localStorage.getItem(LOCAL_STORAGE_KEY);
-      let allCases: Case[] = MOCK_CASES_FALLBACK; // Use fallback if no stored cases
+      let allCases: Case[] = MOCK_CASES_FALLBACK; 
       if (storedCases) {
         try {
           const parsedCases = JSON.parse(storedCases);
-          if (Array.isArray(parsedCases) && parsedCases.length > 0) {
+          if (Array.isArray(parsedCases) && parsedCases.length > 0 && parsedCases.every(c => c.case_id && c.full_name && c.region)) {
             allCases = parsedCases;
+          } else {
+             // If stored data is invalid or doesn't exist, MOCK_CASES_FALLBACK is already set
+             // Optionally, you could re-save the fallback to local storage if it was invalid
+             localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(MOCK_CASES_FALLBACK));
           }
         } catch (e) {
-          // Error parsing, stick with fallback
-          console.error("Failed to parse cases from localStorage", e);
+          console.error("Failed to parse cases from localStorage for detail page, using fallback.", e);
+          // MOCK_CASES_FALLBACK is already the default
+          localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(MOCK_CASES_FALLBACK));
         }
+      } else {
+        // No data in local storage, prime it with fallback
+         localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(MOCK_CASES_FALLBACK));
       }
       
       const foundCase = allCases.find(c => c.case_id === caseId);
@@ -104,7 +112,7 @@ export default function CaseDetailPage() {
   const PriorityIcon = ({ level }: { level: Case['priority_level'] }) => {
     switch (level) {
       case 'High': return <AlertTriangle className="h-5 w-5 text-red-500 mr-2" />;
-      case 'Medium': return <Info className="h-5 w-5 text-orange-500 mr-2" />;
+      case 'Medium': return <Info className="h-5 w-5 text-orange-500 mr-2" />; // Changed from yellow to orange for better visibility
       case 'Low': return <CheckCircle className="h-5 w-5 text-green-500 mr-2" />;
       default: return <AlertCircleIcon className="h-5 w-5 text-gray-500 mr-2" />;
     }
@@ -184,5 +192,3 @@ export default function CaseDetailPage() {
     </div>
   );
 }
-
-    
