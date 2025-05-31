@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -17,21 +18,21 @@ const LOCAL_STORAGE_KEY = "findmenow_cases";
 const MOCK_CASES_FALLBACK: Case[] = [
   {
     case_id: "MP-2025-000147",
-    full_name: "Anaya Singh",
-    last_known_location: "Mumbai Central Station",
+    full_name: "Aisha Khan",
+    last_known_location: "Clifton Beach, Karachi",
     date_last_seen: "2025-05-28",
     timestamp: "2025-05-29T10:00:00Z",
-    region: "Mumbai",
+    region: "Karachi",
     status: "Investigating",
     priority_level: "High",
     age: 7,
     gender: "Female",
-    clothing_description: "Red frock with white polka dots, white sandals.",
+    clothing_description: "Pink shalwar kameez, white sandals.",
     appearance_description: "Shoulder-length black hair, brown eyes, small build.",
     distinguishing_features: "Small mole above her left eyebrow.",
     photoUrl: "https://placehold.co/150x150.png",
-    generated_summary: "Anaya Singh, a 7-year-old female, was last seen at Mumbai Central Station on May 28, 2025. She was wearing a red frock with white polka dots and white sandals. She has shoulder-length black hair, brown eyes, a small build, and a mole above her left eyebrow. The case is currently under investigation and is considered high priority due to the child's age.",
-    recommendations: "1. Deploy search teams around Mumbai Central Station. 2. Review CCTV footage from the station and nearby areas. 3. Issue a public alert with Anaya's photo and description. 4. Contact local child welfare services."
+    generated_summary: "Aisha Khan, a 7-year-old female, was last seen at Clifton Beach, Karachi on May 28, 2025. She was wearing a pink shalwar kameez and white sandals. She has shoulder-length black hair, brown eyes, a small build, and a mole above her left eyebrow. The case is currently under investigation and is considered high priority due to the child's age.",
+    recommendations: "1. Deploy search teams around Clifton Beach. 2. Review CCTV footage from the area and nearby areas. 3. Issue a public alert with Aisha's photo and description. 4. Contact local child welfare services."
   },
 ];
 
@@ -85,7 +86,7 @@ export default function CaseDetailPage() {
     switch (level) {
       case 'High': return <AlertTriangle className="h-5 w-5 text-red-500 mr-2" />;
       case 'Medium': return <Info className="h-5 w-5 text-orange-500 mr-2" />; // Changed to orange for medium
-      case 'Low': return <SearchCheck className="h-5 w-5 text-green-500 mr-2" />; // Changed to green for low
+      case 'Low': return <CheckCircle className="h-5 w-5 text-green-500 mr-2" />; // Changed to green for low
       default: return <AlertCircleIcon className="h-5 w-5 text-gray-500 mr-2" />;
     }
   };

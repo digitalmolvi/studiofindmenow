@@ -1,3 +1,4 @@
+
 "use client";
 
 import CaseListTable from "@/components/cases/CaseListTable";
@@ -13,74 +14,74 @@ import { PlusCircle } from "lucide-react";
 const MOCK_CASES: Case[] = [
   {
     case_id: "MP-2025-000147",
-    full_name: "Anaya Singh",
-    last_known_location: "Mumbai Central Station",
+    full_name: "Aisha Khan",
+    last_known_location: "Clifton Beach, Karachi",
     date_last_seen: "2025-05-28",
     timestamp: "2025-05-29T10:00:00Z",
     days_ago_custom: daysAgo("2025-05-28"), // For display
-    region: "Mumbai",
+    region: "Karachi",
     status: "Investigating",
     priority_level: "High",
     age: 7,
     gender: "Female",
-    clothing_description: "Red frock with white polka dots, white sandals.",
+    clothing_description: "Pink shalwar kameez, white sandals.",
     appearance_description: "Shoulder-length black hair, brown eyes, small build.",
     distinguishing_features: "Small mole above her left eyebrow.",
     photoUrl: "https://placehold.co/100x100.png",
-    generated_summary: "Anaya Singh, a 7-year-old female, was last seen at Mumbai Central Station on May 28, 2025. She was wearing a red frock with white polka dots and white sandals. She has shoulder-length black hair, brown eyes, a small build, and a mole above her left eyebrow. The case is currently under investigation and is considered high priority due to the child's age.",
-    recommendations: "1. Deploy search teams around Mumbai Central Station. 2. Review CCTV footage from the station and nearby areas. 3. Issue a public alert with Anaya's photo and description. 4. Contact local child welfare services."
+    generated_summary: "Aisha Khan, a 7-year-old female, was last seen at Clifton Beach, Karachi on May 28, 2025. She was wearing a pink shalwar kameez and white sandals. She has shoulder-length black hair, brown eyes, a small build, and a mole above her left eyebrow. The case is currently under investigation and is considered high priority due to the child's age.",
+    recommendations: "1. Deploy search teams around Clifton Beach. 2. Review CCTV footage from the area and nearby areas. 3. Issue a public alert with Aisha's photo and description. 4. Contact local child welfare services."
   },
   {
     case_id: "MP-2025-000148",
-    full_name: "Rohan Sharma",
-    last_known_location: "Pune University Campus",
+    full_name: "Ali Hassan",
+    last_known_location: "Liberty Market, Lahore",
     date_last_seen: "2025-05-20",
     timestamp: "2025-05-21T14:30:00Z",
     days_ago_custom: daysAgo("2025-05-20"),
-    region: "Pune",
+    region: "Lahore",
     status: "New",
     priority_level: "Medium",
     age: 22,
     gender: "Male",
-    clothing_description: "Blue jeans, black t-shirt with a band logo, grey backpack.",
+    clothing_description: "Blue jeans, black t-shirt with a cricket team logo, grey backpack.",
     photoUrl: "https://placehold.co/100x100.png",
-    generated_summary: "Rohan Sharma, 22, male, last seen at Pune University Campus on May 20, 2025. Case priority is medium.",
-    recommendations: "Check university records, contact friends and family."
+    generated_summary: "Ali Hassan, 22, male, last seen at Liberty Market, Lahore on May 20, 2025. Case priority is medium.",
+    recommendations: "Check local markets, contact friends and family."
   },
   {
     case_id: "MP-2025-000149",
-    full_name: "Priya Patel",
-    last_known_location: "Chennai Marina Beach",
+    full_name: "Fatima Bibi",
+    last_known_location: "Faisal Mosque, Islamabad",
     date_last_seen: "2024-03-15",
     timestamp: "2024-03-16T09:00:00Z",
     days_ago_custom: daysAgo("2024-03-15"),
-    region: "Chennai",
+    region: "Islamabad",
     status: "Found",
     priority_level: "Low",
     age: 35,
     gender: "Female",
-    clothing_description: "Yellow saree, carrying a handbag.",
+    clothing_description: "Green traditional dress, carrying a handbag.",
     photoUrl: "https://placehold.co/100x100.png",
-    generated_summary: "Priya Patel, 35, female, last seen at Chennai Marina Beach on March 15, 2024. Status: Found. Priority: Low.",
+    generated_summary: "Fatima Bibi, 35, female, last seen at Faisal Mosque, Islamabad on March 15, 2024. Status: Found. Priority: Low.",
     recommendations: "Close case file."
   },
   {
     case_id: "MP-2025-000150",
-    full_name: "Vikram Reddy",
-    last_known_location: "Hyderabad IT Park",
+    full_name: "Usman Malik",
+    last_known_location: "Saddar Bazaar, Rawalpindi",
     date_last_seen: "2025-06-01",
     timestamp: "2025-06-02T11:00:00Z",
     days_ago_custom: daysAgo("2025-06-01"),
-    region: "Hyderabad",
+    region: "Rawalpindi",
     status: "Investigating",
     priority_level: "Medium",
     age: 45,
     gender: "Male",
-    clothing_description: "Formal shirt and trousers.",
+    clothing_description: "Kurta and pajama.",
     appearance_description: "Salt and pepper hair, wears glasses.",
     photoUrl: "https://placehold.co/100x100.png",
-    generated_summary: "Vikram Reddy, 45, male, was last seen at Hyderabad IT Park. He was wearing formal attire. The case is currently under investigation and is considered medium priority.",
-    recommendations: "1. Check office CCTV. 2. Interview colleagues. 3. Analyze phone records."
+    generated_summary: "Usman Malik, 45, male, was last seen at Saddar Bazaar, Rawalpindi. He was wearing a kurta and pajama. The case is currently under investigation and is considered medium priority.",
+    recommendations: "1. Check local CCTV. 2. Interview shopkeepers. 3. Analyze phone records."
   },
 ];
 

@@ -1,3 +1,4 @@
+
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -29,7 +30,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { CalendarIcon, Loader2, Download, AlertTriangle, Info, SearchCheck } from "lucide-react";
+import { CalendarIcon, Loader2, Download, AlertTriangle, Info, CheckCircle } from "lucide-react";
 import { cn, fileToDataUri, formatDate } from "@/lib/utils";
 import { useState, type ReactNode } from "react";
 import { generateCaseSummary, type CaseSummaryInput, type CaseSummaryOutput } from "@/ai/flows/generate-case-summary";
@@ -45,7 +46,7 @@ const formSchema = z.object({
   gender: z.enum(["Male", "Female", "Other"], { required_error: "Gender is required."}),
   last_known_location: z.string().min(5, "Last known location is required."),
   date_last_seen: z.date({ required_error: "Date last seen is required."}),
-  region: z.string().min(2, "Region is required."),
+  region: z.string().min(2, "Region is required."), // e.g., Province or major city in Pakistan
   clothing_description: z.string().min(10, "Clothing description is required."),
   appearance_description: z.string().optional(),
   photo: z.instanceof(FileList).optional(),
@@ -156,7 +157,7 @@ export default function ReportCaseForm() {
     switch (level) {
       case 'High': return <AlertTriangle className="h-5 w-5 text-red-500 mr-2" />;
       case 'Medium': return <Info className="h-5 w-5 text-yellow-500 mr-2" />;
-      case 'Low': return <SearchCheck className="h-5 w-5 text-green-500 mr-2" />;
+      case 'Low': return <CheckCircle className="h-5 w-5 text-green-500 mr-2" />;
       default: return null;
     }
   };
@@ -182,7 +183,7 @@ export default function ReportCaseForm() {
                     <FormItem>
                       <FormLabel>Full Name</FormLabel>
                       <FormControl>
-                        <Input placeholder="e.g., Jane Doe" {...field} />
+                        <Input placeholder="e.g., Ahmed Ali" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -271,7 +272,7 @@ export default function ReportCaseForm() {
                     <FormItem>
                       <FormLabel>Last Known Location</FormLabel>
                       <FormControl>
-                        <Input placeholder="e.g., City Park, Main Street" {...field} />
+                        <Input placeholder="e.g., Anarkali Bazaar, Lahore" {...field} />
                       </FormControl>
                       <FormDescription>Provide as specific location as possible.</FormDescription>
                       <FormMessage />
@@ -283,9 +284,9 @@ export default function ReportCaseForm() {
                   name="region"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Region / State</FormLabel>
+                      <FormLabel>Region / Province / City</FormLabel>
                       <FormControl>
-                        <Input placeholder="e.g., California" {...field} />
+                        <Input placeholder="e.g., Punjab or Karachi" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -301,7 +302,7 @@ export default function ReportCaseForm() {
                     <FormLabel>Clothing Description</FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder="e.g., Red t-shirt, blue jeans, white sneakers"
+                        placeholder="e.g., Blue shalwar kameez, black shoes"
                         className="resize-none"
                         {...field}
                       />
@@ -318,7 +319,7 @@ export default function ReportCaseForm() {
                     <FormLabel>Appearance Description (Optional)</FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder="e.g., Short brown hair, green eyes, medium build"
+                        placeholder="e.g., Short black hair, brown eyes, medium build"
                         className="resize-none"
                         {...field}
                       />
@@ -335,7 +336,7 @@ export default function ReportCaseForm() {
                     <FormLabel>Distinguishing Features (Optional)</FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder="e.g., Scar on left cheek, birthmark on arm, tattoo of a dragon on back"
+                        placeholder="e.g., Scar on left cheek, birthmark on arm, specific mole"
                         className="resize-none"
                         {...field}
                       />

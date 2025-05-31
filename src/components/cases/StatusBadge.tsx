@@ -1,7 +1,8 @@
+
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import type { Case } from "@/lib/types";
-import { AlertTriangle, Info, CheckCircle, Search, AlertCircleIcon } from "lucide-react";
+import { AlertTriangle, Info, CheckCircle, Search, AlertCircleIcon, Anchor } from "lucide-react"; // Added Anchor as a placeholder if needed
 
 interface StatusBadgeProps {
   status: Case['status'];
@@ -26,6 +27,12 @@ export default function StatusBadge({ status, priority, className }: StatusBadge
       className: "bg-green-100 text-green-700 border-green-300",
       icon: <CheckCircle className="h-3 w-3 mr-1" />,
     },
+    // Example for a custom status if needed for Pakistan context
+    // "Referred": { 
+    //   label: "Referred",
+    //   className: "bg-purple-100 text-purple-700 border-purple-300",
+    //   icon: <Anchor className="h-3 w-3 mr-1" /> 
+    // },
   };
 
   const priorityConfig = {
@@ -46,7 +53,7 @@ export default function StatusBadge({ status, priority, className }: StatusBadge
     },
   };
 
-  const currentStatus = statusConfig[status] || statusConfig.New;
+  const currentStatus = statusConfig[status as keyof typeof statusConfig] || statusConfig.New;
   const currentPriority = priorityConfig[priority] || priorityConfig.Low;
 
   return (

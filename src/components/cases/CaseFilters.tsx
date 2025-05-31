@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -68,7 +69,7 @@ export default function CaseFilters({ onFilterChange, initialFilters }: CaseFilt
             <Label htmlFor="region-filter">Region</Label>
             <Input
               id="region-filter"
-              placeholder="e.g., Mumbai"
+              placeholder="e.g., Karachi"
               value={filters.region}
               onChange={(e) => handleInputChange("region", e.target.value)}
             />
