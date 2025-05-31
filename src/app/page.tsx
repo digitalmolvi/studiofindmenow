@@ -83,6 +83,25 @@ const MOCK_CASES: Case[] = [
     generated_summary: "Usman Malik, 45, male, was last seen at Saddar Bazaar, Rawalpindi. He was wearing a kurta and pajama. The case is currently under investigation and is considered medium priority.",
     recommendations: "1. Check local CCTV. 2. Interview shopkeepers. 3. Analyze phone records."
   },
+  {
+    case_id: "MP-2025-000151",
+    full_name: "Zoya Ahmed",
+    last_known_location: "Tariq Road, Karachi",
+    date_last_seen: "2025-06-05",
+    timestamp: "2025-06-06T09:15:00Z",
+    days_ago_custom: daysAgo("2025-06-05"),
+    region: "Karachi",
+    status: "New",
+    priority_level: "High",
+    age: 16,
+    gender: "Female",
+    clothing_description: "Red and black college uniform, carrying a blue backpack.",
+    appearance_description: "Long black hair, usually in a ponytail, wears glasses.",
+    distinguishing_features: "Faint scar on her right forearm.",
+    photoUrl: "https://placehold.co/100x100.png",
+    generated_summary: "Zoya Ahmed, 16, female, last seen near Tariq Road, Karachi on June 5, 2025. Case is new and high priority.",
+    recommendations: "Contact college authorities, check social media activity, inform local police stations covering Tariq Road."
+  }
 ];
 
 // Store mock cases in localStorage to persist new cases from form submission
@@ -99,7 +118,20 @@ export default function CaseListPage() {
   useEffect(() => {
     const storedCases = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (storedCases) {
-      setAllCases(JSON.parse(storedCases));
+      try {
+        const parsedCases = JSON.parse(storedCases);
+        // Basic validation to ensure it's an array and has expected structure
+        if (Array.isArray(parsedCases) && parsedCases.every(c => c.case_id && c.full_name)) {
+          setAllCases(parsedCases);
+        } else {
+          setAllCases(MOCK_CASES);
+          localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(MOCK_CASES));
+        }
+      } catch (e) {
+        // If parsing fails, reset to default mock cases
+        setAllCases(MOCK_CASES);
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(MOCK_CASES));
+      }
     } else {
       setAllCases(MOCK_CASES);
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(MOCK_CASES));
@@ -168,3 +200,5 @@ export default function CaseListPage() {
     </div>
   );
 }
+
+    

@@ -34,6 +34,22 @@ const MOCK_CASES_FALLBACK: Case[] = [
     generated_summary: "Aisha Khan, a 7-year-old female, was last seen at Clifton Beach, Karachi on May 28, 2025. She was wearing a pink shalwar kameez and white sandals. She has shoulder-length black hair, brown eyes, a small build, and a mole above her left eyebrow. The case is currently under investigation and is considered high priority due to the child's age.",
     recommendations: "1. Deploy search teams around Clifton Beach. 2. Review CCTV footage from the area and nearby areas. 3. Issue a public alert with Aisha's photo and description. 4. Contact local child welfare services."
   },
+  {
+    case_id: "MP-2025-000148",
+    full_name: "Ali Hassan",
+    last_known_location: "Liberty Market, Lahore",
+    date_last_seen: "2025-05-20",
+    timestamp: "2025-05-21T14:30:00Z",
+    region: "Lahore",
+    status: "New",
+    priority_level: "Medium",
+    age: 22,
+    gender: "Male",
+    clothing_description: "Blue jeans, black t-shirt with a cricket team logo, grey backpack.",
+    photoUrl: "https://placehold.co/150x150.png",
+    generated_summary: "Ali Hassan, 22, male, last seen at Liberty Market, Lahore on May 20, 2025. Case priority is medium.",
+    recommendations: "Check local markets, contact friends and family."
+  },
 ];
 
 
@@ -47,18 +63,21 @@ export default function CaseDetailPage() {
     if (caseId) {
       setIsLoading(true);
       const storedCases = localStorage.getItem(LOCAL_STORAGE_KEY);
-      let allCases: Case[] = MOCK_CASES_FALLBACK;
+      let allCases: Case[] = MOCK_CASES_FALLBACK; // Use fallback if no stored cases
       if (storedCases) {
-        allCases = JSON.parse(storedCases);
+        try {
+          const parsedCases = JSON.parse(storedCases);
+          if (Array.isArray(parsedCases) && parsedCases.length > 0) {
+            allCases = parsedCases;
+          }
+        } catch (e) {
+          // Error parsing, stick with fallback
+          console.error("Failed to parse cases from localStorage", e);
+        }
       }
       
       const foundCase = allCases.find(c => c.case_id === caseId);
       
-      // If case is from submitted form (might not have case_id yet or a temp one)
-      // This part needs careful handling if form submissions don't use the MP-XXXX-YYYYYY format immediately.
-      // For simplicity, we assume case_id exists and is unique.
-      // If the form submission passes data via query params or state management, that would be handled here too.
-
       setCaseData(foundCase || null);
       setIsLoading(false);
     }
@@ -85,8 +104,8 @@ export default function CaseDetailPage() {
   const PriorityIcon = ({ level }: { level: Case['priority_level'] }) => {
     switch (level) {
       case 'High': return <AlertTriangle className="h-5 w-5 text-red-500 mr-2" />;
-      case 'Medium': return <Info className="h-5 w-5 text-orange-500 mr-2" />; // Changed to orange for medium
-      case 'Low': return <CheckCircle className="h-5 w-5 text-green-500 mr-2" />; // Changed to green for low
+      case 'Medium': return <Info className="h-5 w-5 text-orange-500 mr-2" />;
+      case 'Low': return <CheckCircle className="h-5 w-5 text-green-500 mr-2" />;
       default: return <AlertCircleIcon className="h-5 w-5 text-gray-500 mr-2" />;
     }
   };
@@ -165,3 +184,5 @@ export default function CaseDetailPage() {
     </div>
   );
 }
+
+    
