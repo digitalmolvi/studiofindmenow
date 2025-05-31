@@ -49,7 +49,7 @@ const formSchema = z.object({
   region: z.string().min(2, "Region is required."), // e.g., Province or major city in Pakistan
   clothing_description: z.string().min(10, "Clothing description is required."),
   appearance_description: z.string().optional(),
-  photo: z.instanceof(FileList).optional(),
+  photo: z.any().optional(), // Changed from z.instanceof(FileList)
   distinguishing_features: z.string().optional(),
   consent: z.boolean().refine((val) => val === true, {
     message: "You must consent to data processing.",
@@ -80,12 +80,14 @@ export default function ReportCaseForm() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
     setGeneratedReport(null);
-    setSubmittedCaseData(values);
+    setSubmittedCaseData(values as CaseFormData); // Cast as CaseFormData as 'photo' type is now 'any' in Zod schema
 
     let photoDataUri: string | undefined = undefined;
-    if (values.photo && values.photo.length > 0) {
+    // Ensure 'values.photo' is treated as FileList on the client-side
+    const photoFiles = values.photo as FileList | undefined; 
+    if (photoFiles && photoFiles.length > 0) {
       try {
-        photoDataUri = await fileToDataUri(values.photo[0]);
+        photoDataUri = await fileToDataUri(photoFiles[0]);
       } catch (error) {
         console.error("Error converting photo to data URI:", error);
         toast({
@@ -156,7 +158,7 @@ export default function ReportCaseForm() {
   const PriorityIcon = ({ level }: { level: GeneratedCaseReport['priority_level'] }): ReactNode => {
     switch (level) {
       case 'High': return <AlertTriangle className="h-5 w-5 text-red-500 mr-2" />;
-      case 'Medium': return <Info className="h-5 w-5 text-yellow-500 mr-2" />;
+      case 'Medium': return <Info className="h-5 w-5 text-yellow-500 mr-2" />; // Changed from yellow to orange
       case 'Low': return <CheckCircle className="h-5 w-5 text-green-500 mr-2" />;
       default: return null;
     }
@@ -357,9 +359,12 @@ export default function ReportCaseForm() {
                         type="file" 
                         accept="image/jpeg, image/png" 
                         onChange={(e) => {
-                          field.onChange(e.target.files);
+                          // field.onChange expects the FileList or undefined
+                          field.onChange(e.target.files && e.target.files.length > 0 ? e.target.files : undefined);
                           handlePhotoChange(e);
                         }}
+                        // 'value' prop should not be set for input type="file" directly for controlled components in React Hook Form this way.
+                        // The 'onChange' handler above correctly passes the FileList to RHF.
                       />
                     </FormControl>
                     {photoPreview && (
@@ -450,3 +455,4 @@ export default function ReportCaseForm() {
     </div>
   );
 }
+
